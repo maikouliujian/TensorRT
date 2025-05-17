@@ -260,10 +260,11 @@ public:
         int32_t outputIndex, IDimensionExpr const& opt, IDimensionExpr const& upper)
         = 0;
 };
-
+//todo runtime核心类【找不到实现类，nvdia闭源了】
 class VRuntime : public VRoot
 {
 public:
+    //todo 定义runtime和获取CudaEngine的方法
     virtual IRuntime* getPImpl() noexcept = 0;
     virtual nvinfer1::ICudaEngine* deserializeCudaEngine(void const* blob, std::size_t size) noexcept = 0;
     virtual nvinfer1::ICudaEngine* deserializeCudaEngine(IStreamReader& streamReader) noexcept = 0;

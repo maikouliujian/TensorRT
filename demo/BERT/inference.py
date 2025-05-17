@@ -129,6 +129,7 @@ if __name__ == '__main__':
 
     # The first context created will use the 0th profile. A new context must be created
     # for each additional profile needed. Here, we only use batch size 1, thus we only need the first profile.
+    # todo 使用demo
     with open(args.engine, 'rb') as f, trt.Runtime(TRT_LOGGER) as runtime, \
         runtime.deserialize_cuda_engine(f.read()) as engine, engine.create_execution_context() as context:
 

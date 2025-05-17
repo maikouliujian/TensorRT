@@ -1815,6 +1815,7 @@ using IGpuAllocator = v_1_0::IGpuAllocator;
 //!
 //! \warning Do not inherit from this class, as doing so will break forward-compatibility of the API and ABI.
 //!
+//todo IRuntime类！！！！！！
 class IRuntime : public INoCopy
 {
 public:
@@ -1935,6 +1936,7 @@ public:
     //! \deprecated Deprecated in TensorRT 10.7. Superseded by deserializeCudaEngine that takes an IStreamReaderV2
     //! instead of IStreamReader.
     //!
+    //todo 反序列化cudaengine！！！！！！
     TRT_DEPRECATED ICudaEngine* deserializeCudaEngine(IStreamReader& streamReader)
     {
         return mImpl->deserializeCudaEngine(streamReader);
@@ -3000,6 +3002,7 @@ constexpr inline int32_t EnumMax<ExecutionContextAllocationStrategy>() noexcept
 //!
 //! \warning Do not inherit from this class, as doing so will break forward-compatibility of the API and ABI.
 //!
+//todo cuda engine类
 class ICudaEngine : public INoCopy
 {
 public:
@@ -3075,6 +3078,7 @@ public:
     //! \see IExecutionContext::setOptimizationProfileAsync()
     //! \see ExecutionContextAllocationStrategy
     //!
+    //todo IExecutionContext
     IExecutionContext* createExecutionContext(
         ExecutionContextAllocationStrategy strategy = ExecutionContextAllocationStrategy::kSTATIC) noexcept
     {

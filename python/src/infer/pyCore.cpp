@@ -1816,13 +1816,15 @@ void bindCore(py::module& m)
             BuilderDoc::get_plugin_registry)
         .def("__del__", &utils::doNothingDel<IBuilder>);
 #endif // EXPORT_ALL_BINDINGS
-
     // Runtime
+    //todo 使用 pybind11 将 NVIDIA TensorRT 的 IRuntime 类从 C++ 暴露到 Python 的绑定代码。
+    // IRuntime 是 TensorRT 运行时接口，用于管理推理引擎（ICudaEngine）的加载和执行
     py::class_<IRuntime>(m, "Runtime", RuntimeDoc::descr, py::module_local())
         // Use a lambda to force correct resolution. Pybind doesn't resolve noexcept factory methods correctly as
         // constructors. https://github.com/pybind/pybind11/issues/2856
         .def(py::init([](ILogger& logger) { return nvinfer1::createInferRuntime(logger); }), "logger"_a,
             RuntimeDoc::init, py::keep_alive<1, 2>{})
+        //todo 定义deserialize_cuda_engine的3个重载方法
         .def("deserialize_cuda_engine", lambdas::runtime_deserialize_cuda_engine, "serialized_engine"_a,
             RuntimeDoc::deserialize_cuda_engine, py::call_guard<py::gil_scoped_release>{}, py::keep_alive<0, 1>{})
         .def("deserialize_cuda_engine", py::overload_cast<IStreamReader&>(&IRuntime::deserializeCudaEngine),
@@ -1831,6 +1833,7 @@ void bindCore(py::module& m)
         .def("deserialize_cuda_engine", py::overload_cast<IStreamReaderV2&>(&IRuntime::deserializeCudaEngine),
             "stream_reader_v2"_a, RuntimeDoc::deserialize_cuda_engine_reader_v2,
             py::call_guard<py::gil_scoped_release>{}, py::keep_alive<0, 1>{})
+        //todo 定义变量【变量名，get方法，set方法】
         .def_property("DLA_core", &IRuntime::getDLACore, &IRuntime::setDLACore)
         .def_property_readonly("num_DLA_cores", &IRuntime::getNbDLACores)
         .def_property("gpu_allocator", nullptr, py::cpp_function(&IRuntime::setGpuAllocator, py::keep_alive<1, 2>{}))
