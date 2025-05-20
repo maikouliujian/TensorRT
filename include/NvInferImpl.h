@@ -1275,6 +1275,7 @@ public:
     virtual IErrorRecorder* getErrorRecorder() const noexcept = 0;
     virtual void reset() noexcept = 0;
     virtual bool platformHasTf32() const noexcept = 0;
+    //todo buildSerializedNetwork！！！！！！
     virtual nvinfer1::IHostMemory* buildSerializedNetwork(
         INetworkDefinition& network, IBuilderConfig& config) noexcept = 0;
     virtual bool isNetworkSupported(INetworkDefinition const& network, IBuilderConfig const& config) const noexcept = 0;

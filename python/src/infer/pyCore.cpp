@@ -1784,11 +1784,13 @@ void bindCore(py::module& m)
         ;
 
     // Builder
+    // todo 组网的部分
     py::class_<IBuilder>(m, "Builder", BuilderDoc::descr, py::module_local())
         // Use a lambda to force correct resolution. Pybind doesn't resolve noexcept factory methods correctly as
         // constructors. https://github.com/pybind/pybind11/issues/2856
         .def(py::init([](ILogger& logger) { return nvinfer1::createInferBuilder(logger); }), "logger"_a,
             BuilderDoc::init, py::keep_alive<1, 2>{})
+        //todo 创建网络结构
         .def("create_network", &IBuilder::createNetworkV2, "flags"_a = 0U, BuilderDoc::create_network,
             py::keep_alive<0, 1>{})
         .def_property_readonly("platform_has_tf32", &IBuilder::platformHasTf32)
@@ -1803,6 +1805,7 @@ void bindCore(py::module& m)
             py::cpp_function(&IBuilder::setErrorRecorder, py::keep_alive<1, 2>{}))
         .def("create_builder_config", &IBuilder::createBuilderConfig, BuilderDoc::create_builder_config,
             py::keep_alive<0, 1>{})
+        //todo 构建网络结构，构建engine
         .def("build_serialized_network", &IBuilder::buildSerializedNetwork, "network"_a, "config"_a,
             BuilderDoc::build_serialized_network, py::call_guard<py::gil_scoped_release>{})
         .def("build_engine_with_config", &IBuilder::buildEngineWithConfig, "network"_a, "config"_a,
